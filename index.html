@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ご婚約おめでとう — Celebration for Okada-san</title>
+<style>
+  :root{
+    --bg0:#0b0f17;
+    --bg1:#121827;
+    --txt:#e6f1ff;
+    --sub:#a9b8d6;
+    --accent:#7dd3fc;
+    --accent2:#c084fc;
+    --accent3:#f472b6;
+    --gold:#ffd166;
+    --shadow:0 20px 60px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:radial-gradient(1200px 800px at 80% -10%,rgba(125,211,252,.15),transparent),
+                       radial-gradient(1000px 600px at -10% 90%,rgba(192,132,252,.12),transparent),
+                       linear-gradient(180deg,var(--bg0),var(--bg1));
+    color:var(--txt); font-family:'Inter','Noto Sans JP',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    overflow-x:hidden;
+  }
+  .wrap{min-height:100dvh; display:grid; grid-template-rows:auto 1fr auto}
+  header{position:relative; padding:24px clamp(16px,3vw,36px); display:flex; align-items:center; justify-content:space-between}
+  .brand{display:flex;gap:12px; align-items:center}
+  .logo{width:36px;height:36px;border-radius:10px; background:conic-gradient(from 210deg,var(--accent2),var(--accent),var(--accent3),var(--accent2)); box-shadow:var(--shadow)}
+  header h1{margin:0;font-size:clamp(18px,2.4vw,22px); letter-spacing:.06em; font-weight:700; color:var(--sub)}
+  .controls{display:flex;gap:10px; align-items:center}
+  button{appearance:none; border:none; background:linear-gradient(90deg,var(--accent3),var(--gold),var(--accent2)); color:#000; padding:14px 20px; border-radius:18px; font-weight:900; letter-spacing:.05em; cursor:pointer; box-shadow:0 0 25px rgba(255,209,102,.5); transition:transform .2s, box-shadow .2s;}
+  button:hover{transform:scale(1.1); box-shadow:0 0 40px rgba(255,255,255,.6);}
+
+  main{position:relative; display:grid; place-items:center; padding:clamp(18px,3vw,32px)}
+  .hero{text-align:center; padding:clamp(20px,3vw,40px)}
+  .line1{font-size:clamp(14px,1.8vw,18px); color:var(--sub); letter-spacing:.25em}
+  .name{display:inline-block; margin-top:10px; font-size:clamp(40px,9vw,108px); font-weight:900; line-height:1.05; letter-spacing:.02em; background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3),var(--gold),var(--accent)); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 8s linear infinite;}
+  @keyframes shine{to{background-position:200% 0}}
+  .line2{margin-top:10px; font-size:clamp(18px,2.6vw,28px); color:#dbeafe; opacity:.95}
+  .typer{display:inline-block; border-right:2px solid var(--gold); padding-right:6px}
+
+  .ctaRow{margin-top:22px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap}
+  .pill{padding:10px 16px; border-radius:999px; font-size:16px; font-weight:700; color:var(--gold); background:rgba(255,255,255,.1); box-shadow:0 0 20px rgba(255,209,102,.3); animation:pulse 2s infinite alternate;}
+  @keyframes pulse{from{transform:scale(1);}to{transform:scale(1.1);}}
+
+  footer{padding:16px clamp(16px,3vw,36px); color:#90a4b8; font-size:12px; text-align:center; opacity:.9}
+
+  canvas#fx{position:fixed; inset:0; z-index:-1;}
+  .confetti{position:fixed; top:-10vh; left:0; width:100%; height:1px; pointer-events:none; z-index:50}
+  .confetti i{position:absolute; top:0; width:10px; height:16px; transform:translateY(-100%); opacity:0}
+
+  .heart{position:fixed; width:12px; height:12px; pointer-events:none; transform:translate(-50%,-50%);}
+  .heart::before{content:""; position:absolute; inset:0; background:radial-gradient(circle at 30% 30%, #fff, #fff0 40%),radial-gradient(circle at 70% 70%, #fff, #fff0 40%); filter:drop-shadow(0 0 8px rgba(255,255,255,.5)); clip-path:polygon(50% 0%,61% 9%,70% 20%,75% 33%,76% 48%,70% 61%,61% 73%,50% 83%,39% 73%,30% 61%,24% 48%,25% 33%,30% 20%,39% 9%);}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div class="confetti" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo"></div><h1>ENGAGEMENT CELEBRATION</h1></div>
+    <div class="controls">
+      <button id="fireBtn">🔥 盛大に祝砲！</button>
+      <button id="confettiBtn">🎉 舞い踊る祝福！</button>
+    </div>
+  </header>
+  <main>
+    <section class="hero" aria-live="polite">
+      <div class="line1">ご婚約、</div>
+      <div class="name" id="name">岡田さん、<span style="white-space:nowrap">おめでとう！</span></div>
+      <div class="line2"><span id="typer" class="typer"></span></div>
+      <div class="ctaRow">
+        <span class="pill">クリック/タップで花火！</span>
+        <span class="pill">「祝砲」で夜空を焦がす！</span>
+        <span class="pill">「舞い踊る祝福！」で世界が煌めく！</span>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <small>画像をドラッグ＆ドロップで背景に設定可能（オフライン対応）</small>
+  </footer>
+</div>
+<script>
+const TARGET_NAME = '岡田さん';
+const messages = [
+  'ご婚約、心からおめでとうございます。',
+  '夜空に咲く祝砲の光が、二人の未来を照らします。',
+  'この瞬間、世界が歓声で包まれる！',
+  '永遠に続く愛の花火を、心を込めて。'
+];
+const typer=document.getElementById('typer');
+let msgIndex=0, charIndex=0, typing;
+function typeNext(){const text=messages[msgIndex];typer.textContent=text.slice(0,charIndex++);if(charIndex<=text.length){typing=setTimeout(typeNext,38);}else{setTimeout(()=>{charIndex=0;msgIndex=(msgIndex+1)%messages.length;typeErase();},2000);}}
+function typeErase(){const text=messages[(msgIndex-1+messages.length)%messages.length];if(charIndex>=0){typer.textContent=text.slice(0,charIndex--);setTimeout(typeErase,20);}else{typeNext();}}
+const cvs=document.getElementById('fx');const ctx=cvs.getContext('2d');let W,H,DPR;function resize(){DPR=Math.min(Math.max(window.devicePixelRatio||1,1),2);W=cvs.width=Math.floor(innerWidth*DPR);H=cvs.height=Math.floor(innerHeight*DPR);cvs.style.width=innerWidth+'px';cvs.style.height=innerHeight+'px';}window.addEventListener('resize',resize,{passive:true});resize();const GRAV=.07,FRICTION=.985,particles=[],rockets=[];function rand(a,b){return Math.random()*(b-a)+a;}function hsv(h,s,v){let f=(n,k=(n+h/60)%6)=>v-v*s*Math.max(Math.min(k,4-k,1),0);return`rgb(${f(5)*255|0},${f(3)*255|0},${f(1)*255|0})`;}class Particle{constructor(x,y,col){this.x=x;this.y=y;this.vx=rand(-3,3);this.vy=rand(-5,2);this.life=rand(60,100);this.color=col;this.size=rand(1.2,2.5);}step(){this.vx*=FRICTION;this.vy=this.vy*FRICTION+GRAV;this.x+=this.vx;this.y+=this.vy;this.life--;}draw(){ctx.fillStyle=this.color;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,6.283);ctx.fill();}}class Rocket{constructor(x,y){this.x=x;this.y=y;this.vx=rand(-1.6,1.6);this.vy=rand(-11,-8);this.hue=rand(0,360);this.exploded=false;}step(){this.x+=this.vx;this.vy+=.12;this.y+=this.vy;if(this.vy>-1&&!this.exploded){this.explode();}}explode(){this.exploded=true;const col=hsv(this.hue,.9,1);for(let i=0;i<200;i++){const p=new Particle(this.x,this.y,col);const ang=rand(0,Math.PI*2);const sp=rand(1,8);p.vx=Math.cos(ang)*sp;p.vy=Math.sin(ang)*sp;particles.push(p);}}}function launch(x,y){rockets.push(new Rocket(x,y));}function burst(n=6){for(let i=0;i<n;i++){launch(rand(0,W),H);}}function loop(){ctx.clearRect(0,0,W,H);ctx.fillStyle='rgba(255,255,255,.06)';for(let i=0;i<60;i++){const x=(i*187%W)|0,y=(i*263%H)|0;ctx.fillRect(x,y,1,1);}for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.step();p.draw();if(p.life<0)particles.splice(i,1);}for(let i=rockets.length-1;i>=0;i--){const r=rockets[i];r.step();if(r.exploded||r.y>H+40)rockets.splice(i,1);}requestAnimationFrame(loop);}loop();setTimeout(()=>burst(8),800);setTimeout(()=>burst(10),1800);setTimeout(()=>burst(12),3000);
+addEventListener('pointerdown',e=>{const x=(e.clientX||innerWidth/2)*DPR,y=(e.clientY||innerHeight)*DPR;launch(x,y);heartTrail(e.clientX,e.clientY);});
+const confettiHost=document.querySelector('.confetti');function shootConfetti(count=300){for(let i=0;i<count;i++){const el=document.createElement('i');const hue=Math.floor(Math.random()*360);el.style.background=hsv(hue,.8,1);el.style.left=Math.random()*100+'%';el.style.opacity='1';el.style.transform=`translateY(-100%) rotate(${Math.random()*360}deg)`;const fall=el.animate([{transform:`translateY(-100%) rotate(0deg)`,opacity:1},{transform:`translateY(${innerHeight+200}px) rotate(${720+Math.random()*720}deg)`,opacity:Math.random()*.6+.2}],{duration:2500+Math.random()*1500,easing:'cubic-bezier(.2,.7,0,1)'});confettiHost.appendChild(el);fall.finished.then(()=>el.remove());}}
+function heartTrail(x,y){for(let i=0;i<10;i++){const h=document.createElement('div');h.className='heart';h.style.left=x+'px';h.style.top=y+'px';document.body.appendChild(h);h.animate([{transform:'translate(-50%,-50%) scale(.9)',opacity:1,filter:'hue-rotate(0deg)'},{transform:`translate(${(Math.random()*80-40)}px,${-60-Math.random()*60}px) scale(0)`,opacity:0,filter:'hue-rotate(120deg)'}],{duration:900+Math.random()*400,easing:'ease-out'}).finished.then(()=>h.remove());}}
+window.addEventListener('dragover',e=>{e.preventDefault();});window.addEventListener('drop',e=>{e.preventDefault();const file=e.dataTransfer.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{document.body.style.backgroundImage=`url(${ev.target.result})`;document.body.style.backgroundSize='cover';document.body.style.backgroundPosition='center';};reader.readAsDataURL(file);});
+const fireBtn=document.getElementById('fireBtn');const confettiBtn=document.getElementById('confettiBtn');fireBtn.addEventListener('click',()=>burst(16));confettiBtn.addEventListener('click',()=>shootConfetti(400));
+document.getElementById('name').firstChild.nodeValue=TARGET_NAME+'、';typeNext();
+window.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){burst(8);shootConfetti(250);}});
+</script>
+</body>
+</html>
